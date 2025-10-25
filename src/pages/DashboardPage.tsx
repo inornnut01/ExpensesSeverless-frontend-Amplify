@@ -112,9 +112,7 @@ const DashboardPage = () => {
     setDialogOpen(true);
   };
 
-  const handleSave = async (
-    transactionData: Omit<Transaction, "id" | "date">
-  ) => {
+  const handleSave = async (transactionData: Omit<Transaction, "id">) => {
     try {
       if (editingTransaction) {
         // Update existing
@@ -123,6 +121,7 @@ const DashboardPage = () => {
           category: transactionData.category,
           description: transactionData.description,
           type: transactionData.type,
+          date: transactionData.date, // เพิ่มบรรทัดนี้
         });
         toast.success("Transaction updated successfully");
       } else {
@@ -132,6 +131,7 @@ const DashboardPage = () => {
           category: transactionData.category,
           description: transactionData.description,
           type: transactionData.type,
+          date: transactionData.date, // เพิ่มบรรทัดนี้
         });
         toast.success("Transaction created successfully");
       }

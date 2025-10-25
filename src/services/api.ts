@@ -103,6 +103,7 @@ class ExpenseAPI {
     category: string;
     description: string;
     type: "income" | "expense";
+    date?: string;
     tags?: string[];
   }): Promise<Expense> {
     try {
@@ -134,6 +135,7 @@ class ExpenseAPI {
       category: string;
       description: string;
       type: "income" | "expense";
+      date?: string;
       tags?: string[];
     }>
   ): Promise<Expense> {

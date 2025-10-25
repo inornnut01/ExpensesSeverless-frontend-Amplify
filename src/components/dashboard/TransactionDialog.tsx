@@ -37,7 +37,7 @@ export const TransactionDialog = ({
     category: "",
     amount: "",
     description: "",
-    date: new Date().toISOString().split("T")[0],
+    date: new Date().toISOString().split("T")[0], // YYYY-MM-DD
   });
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const TransactionDialog = ({
         category: editingTransaction.category,
         amount: Math.abs(editingTransaction.amount).toString(),
         description: editingTransaction.description,
-        date: new Date(editingTransaction.date).toISOString().split("T")[0],
+        date: new Date(editingTransaction.date).toISOString().split("T")[0], // YYYY-MM-DD
       });
     } else {
       setFormData({
@@ -62,10 +62,7 @@ export const TransactionDialog = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const amount =
-      formData.type === "income"
-        ? parseFloat(formData.amount)
-        : -parseFloat(formData.amount);
+    const amount = parseFloat(formData.amount);
 
     onSave({
       ...formData,
