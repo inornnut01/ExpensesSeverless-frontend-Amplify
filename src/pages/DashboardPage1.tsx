@@ -150,7 +150,7 @@ const DashboardPage = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading Expense Tracker...</p>
+          <p className="text-muted-foreground">Loading expenses...</p>
         </div>
       </div>
     );
@@ -184,7 +184,7 @@ const DashboardPage = () => {
           <SummaryCards
             totalIncome={summary?.totalIncome || 0}
             totalExpense={summary?.totalExpense || 0}
-            netAmount={summary?.netAmount || 0}
+            balance={summary?.netAmount || 0}
           />
 
           <SummaryChart />

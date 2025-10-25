@@ -12,13 +12,13 @@ import { TrendingUp, TrendingDown, ArrowDown, ArrowUp } from "lucide-react";
 interface SummaryCardsProps {
   totalIncome: number;
   totalExpense: number;
-  balance: number;
+  netAmount: number;
 }
 
 const SummaryCards = ({
   totalIncome,
   totalExpense,
-  balance,
+  netAmount,
 }: SummaryCardsProps) => {
   return (
     <div className="grid gap-4 md:grid-cols-3">
@@ -30,16 +30,23 @@ const SummaryCards = ({
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <TrendingUp className="size-4" />
+              {totalIncome > totalExpense ? (
+                <TrendingUp className="size-4 text-green-500" />
+              ) : (
+                <TrendingDown className="size-4 text-red-500" />
+              )}
+              {totalIncome > totalExpense ? "Up" : "Down"}
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Total income this month
+            {totalIncome > totalExpense
+              ? "Your income goes up, please keep doing what you are doing."
+              : "Your income goes down, please find ways to increase it."}
           </div>
           <div className="text-muted-foreground">
-            Total income for the last 6 months
+            <p>keep doing the right thing</p>
           </div>
         </CardFooter>
       </Card>
@@ -52,36 +59,56 @@ const SummaryCards = ({
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <TrendingDown className="size-4" />
+              {totalIncome < totalExpense ? (
+                <TrendingUp className="size-4 text-red-500" />
+              ) : (
+                <TrendingDown className="size-4 text-green-500" />
+              )}
+              {totalIncome < totalExpense ? "Up" : "Down"}
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <ArrowDown className="size-4" />
+            {totalIncome < totalExpense
+              ? "Your expenses go up, please find ways to reduce them."
+              : "Your expenses go down, please keep doing what you are doing."}
           </div>
           <div className="text-muted-foreground">
-            Acquisition needs attention
+            <p>Tomorrow is the nice day to start saving.</p>
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Balance</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            ${balance.toFixed(2)}
+          <CardTitle
+            className={`text-2xl font-semibold tabular-nums @[250px]/card:text-3xl ${
+              netAmount > 0 ? "text-green-500" : "text-red-500"
+            }`}
+          >
+            ${netAmount.toFixed(2)}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <TrendingUp className="size-4" />
+              {netAmount > 0 ? (
+                <TrendingUp className="size-4 text-green-500" />
+              ) : (
+                <TrendingDown className="size-4 text-red-500" />
+              )}
+              {netAmount > 0 ? "Up" : "Down"}
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <ArrowUp className="size-4" />
+            {netAmount > 0
+              ? "Your balance goes up, please keep doing what you are doing."
+              : "Your balance goes down, please find ways to increase it."}
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
+          <div className="text-muted-foreground">
+            <p>This is for your expenses.</p>
+          </div>
         </CardFooter>
       </Card>
     </div>

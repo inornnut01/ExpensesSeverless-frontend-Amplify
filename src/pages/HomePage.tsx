@@ -1,6 +1,6 @@
-import Navbar from "@/components/Landing/Navbar";
 import Content from "@/components/Landing/Content";
 import Footer from "@/components/Landing/Footer";
+import Navbar from "@/components/Landing/Navbar";
 
 function HomePage() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingDown, TrendingUp } from "lucide-react";
+import { Wallet, CircleDollarSign, TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import {
@@ -19,38 +19,65 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { expenseAPI, type Expense } from "@/services/api";
+import { useEffect, useState } from "react";
 
 export const description = "An area chart with icons";
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+// const chartData = [
+//   { month: "January", desktop: 186, mobile: 80 },
+//   { month: "February", desktop: 305, mobile: 200 },
+//   { month: "March", desktop: 237, mobile: 120 },
+//   { month: "April", desktop: 73, mobile: 190 },
+//   { month: "May", desktop: 209, mobile: 130 },
+//   { month: "June", desktop: 214, mobile: 140 },
+// ];
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  income: {
+    label: "Income",
     color: "var(--chart-1)",
-    icon: TrendingDown,
+    icon: Wallet,
   },
-  mobile: {
-    label: "Mobile",
+  expense: {
+    label: "Expense",
     color: "var(--chart-2)",
-    icon: TrendingUp,
+    icon: CircleDollarSign,
   },
 } satisfies ChartConfig;
 
 const SummaryChart = () => {
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchExpenses = async () => {
+    try {
+      setLoading(true);
+      const response = await expenseAPI.getExpenses();
+      setExpenses(response.expenses);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
+
+  const chartData = expenses.map((expense) => ({
+    month: expense.createdAt.split("T")[0],
+    income: expense.type === "income" ? expense.amount : 0,
+    expense: expense.type === "expense" ? expense.amount : 0,
+  }));
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Area Chart - Icons</CardTitle>
+        <CardTitle>Your Income and Expense</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Showing your income and expenses for the last 6 months
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -69,26 +96,28 @@ const SummaryChart = () => {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) =>
+                new Date(value).toLocaleDateString("en-US", { month: "short" })
+              }
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
             <Area
-              dataKey="mobile"
+              dataKey="income"
               type="natural"
-              fill="var(--color-mobile)"
+              fill="var(--color-income)"
               fillOpacity={0.4}
-              stroke="var(--color-mobile)"
+              stroke="var(--color-income)"
               stackId="a"
             />
             <Area
-              dataKey="desktop"
+              dataKey="expense"
               type="natural"
-              fill="var(--color-desktop)"
+              fill="var(--color-expense)"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+              stroke="var(--color-expense)"
               stackId="a"
             />
             <ChartLegend content={<ChartLegendContent />} />
