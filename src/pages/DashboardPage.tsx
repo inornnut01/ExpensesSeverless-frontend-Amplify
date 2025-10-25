@@ -85,7 +85,9 @@ const DashboardPage = () => {
     date: expense.createdAt.split("T")[0], // Extract date part
   });
 
-  const transactions = expenses.map(convertToTransaction);
+  const transactions = expenses
+    .map(convertToTransaction)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const handleEdit = (transaction: Transaction) => {
     setEditingTransaction(transaction);
@@ -187,7 +189,7 @@ const DashboardPage = () => {
             netAmount={summary?.netAmount || 0}
           />
 
-          <SummaryChart />
+          <SummaryChart expenses={expenses} loading={loading} />
 
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h2 className="text-xl font-semibold">

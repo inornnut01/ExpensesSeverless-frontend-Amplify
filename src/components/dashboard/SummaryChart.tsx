@@ -19,10 +19,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { expenseAPI, type Expense } from "@/services/api";
-import { useEffect, useState } from "react";
+import { type Expense } from "@/services/api";
 
-export const description = "An area chart with icons";
+interface SummaryChartProps {
+  expenses: Expense[];
+  loading?: boolean;
+}
 
 // const chartData = [
 //   { month: "January", desktop: 186, mobile: 80 },
@@ -46,31 +48,18 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const SummaryChart = () => {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchExpenses = async () => {
-    try {
-      setLoading(true);
-      const response = await expenseAPI.getExpenses();
-      setExpenses(response.expenses);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchExpenses();
-  }, []);
-
-  const chartData = expenses.map((expense) => ({
-    month: expense.createdAt.split("T")[0],
-    income: expense.type === "income" ? expense.amount : 0,
-    expense: expense.type === "expense" ? expense.amount : 0,
-  }));
+const SummaryChart = ({ expenses, loading = false }: SummaryChartProps) => {
+  const chartData = expenses
+    .filter((expense) => new Date(expense.createdAt))
+    .sort(
+      (a, b) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    )
+    .map((expense) => ({
+      month: expense.createdAt.split("T")[0],
+      income: expense.type === "income" ? expense.amount : 0,
+      expense: expense.type === "expense" ? expense.amount : 0,
+    }));
 
   return (
     <Card>
@@ -96,6 +85,7 @@ const SummaryChart = () => {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
+              interval={Math.floor(chartData.length / 6)}
               tickFormatter={(value) =>
                 new Date(value).toLocaleDateString("en-US", { month: "short" })
               }
