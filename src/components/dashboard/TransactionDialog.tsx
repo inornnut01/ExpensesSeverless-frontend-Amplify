@@ -16,12 +16,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import type { Expense } from "@/services/api";
 
 interface TransactionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSave: (transaction: Omit<any, "id">) => void;
-  editingTransaction?: any | null;
+  onSave: (transaction: Omit<Expense, "id">) => void;
+  editingTransaction?: Expense | null;
   categories: string[];
 }
 
@@ -47,7 +48,9 @@ export const TransactionDialog = ({
         category: editingTransaction.category,
         amount: Math.abs(editingTransaction.amount).toString(),
         description: editingTransaction.description,
-        date: new Date(editingTransaction.date).toISOString().split("T")[0], // YYYY-MM-DD
+        date: new Date(editingTransaction.createdAt)
+          .toISOString()
+          .split("T")[0], // YYYY-MM-DD
       });
     } else {
       setFormData({
@@ -103,6 +106,7 @@ export const TransactionDialog = ({
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
             <Select
+              key={editingTransaction ? editingTransaction.id : "new"}
               value={formData.category}
               onValueChange={(value) =>
                 setFormData({ ...formData, category: value })

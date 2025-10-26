@@ -9,16 +9,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2 } from "lucide-react";
-import type { Transaction } from "@/pages/DashboardPage";
+import type { Expense } from "@/services/api";
 
 interface TransactionListProps {
-  transactions: Transaction[];
-  onEdit: (transaction: Transaction) => void;
+  expenses: Expense[];
+  onEdit: (expense: Expense) => void;
   onDelete: (id: string) => void;
 }
 
 export const TransactionList = ({
-  transactions,
+  expenses,
   onEdit,
   onDelete,
 }: TransactionListProps) => {
@@ -36,7 +36,7 @@ export const TransactionList = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {transactions.length === 0 ? (
+          {expenses.length === 0 ? (
             <TableRow>
               <TableCell
                 colSpan={6}
@@ -46,45 +46,45 @@ export const TransactionList = ({
               </TableCell>
             </TableRow>
           ) : (
-            transactions.map((transaction) => (
-              <TableRow key={transaction.id}>
+            expenses.map((expense) => (
+              <TableRow key={expense.id}>
                 <TableCell className="font-medium">
-                  {new Date(transaction.date).toLocaleDateString()}
+                  {new Date(expense.createdAt).toLocaleDateString()}
                 </TableCell>
                 <TableCell>
                   <Badge
                     variant={
-                      transaction.type === "income" ? "default" : "secondary"
+                      expense.type === "income" ? "default" : "secondary"
                     }
                   >
-                    {transaction.type}
+                    {expense.type}
                   </Badge>
                 </TableCell>
-                <TableCell>{transaction.category}</TableCell>
-                <TableCell>{transaction.description}</TableCell>
+                <TableCell>{expense.category}</TableCell>
+                <TableCell>{expense.description}</TableCell>
                 <TableCell
                   className={`text-right font-medium ${
-                    transaction.type === "income"
+                    expense.type === "income"
                       ? "text-foreground"
                       : "text-muted-foreground"
                   }`}
                 >
-                  {transaction.type === "income" ? "+" : "-"}$
-                  {Math.abs(transaction.amount).toFixed(2)}
+                  {expense.type === "income" ? "+" : "-"}$
+                  {Math.abs(expense.amount).toFixed(2)}
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => onEdit(transaction)}
+                      onClick={() => onEdit(expense)}
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => onDelete(transaction.id)}
+                      onClick={() => onDelete(expense.id)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

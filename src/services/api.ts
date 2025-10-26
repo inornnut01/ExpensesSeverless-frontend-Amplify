@@ -141,12 +141,19 @@ class ExpenseAPI {
   ): Promise<Expense> {
     try {
       const headers = await this.getAuthHeaders();
+      const session = await fetchAuthSession();
+      const userId = session.tokens?.idToken?.payload?.sub as string;
 
+      if (!userId) {
+        throw new Error("User ID not found in session");
+      }
       const response = await fetch(`${API_BASE_URL}/update`, {
         method: "PUT",
         headers,
-        body: JSON.stringify({ id: expenseId, ...updates }),
+        body: JSON.stringify({ id: expenseId, userId, ...updates }),
       });
+
+      console.log(response);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -164,11 +171,16 @@ class ExpenseAPI {
   async deleteExpense(expenseId: string): Promise<void> {
     try {
       const headers = await this.getAuthHeaders();
+      const session = await fetchAuthSession();
+      const userId = session.tokens?.idToken?.payload?.sub as string;
 
+      if (!userId) {
+        throw new Error("User ID not found in session");
+      }
       const response = await fetch(`${API_BASE_URL}/delete`, {
         method: "DELETE",
         headers,
-        body: JSON.stringify({ id: expenseId }),
+        body: JSON.stringify({ id: expenseId, userId }),
       });
 
       if (!response.ok) {

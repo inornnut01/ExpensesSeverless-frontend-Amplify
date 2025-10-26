@@ -5,7 +5,7 @@ import TransactionFilters from "@/components/dashboard/TransactionFilters";
 import { TransactionList } from "@/components/dashboard/TransactionList";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { expenseAPI, type Expense, type ExpenseSummary } from "@/services/api";
 import { useAuth } from "@/contexts/AuthContext";
@@ -19,14 +19,20 @@ export interface Transaction {
   date: string;
 }
 
-const categories = [
+const Categories = [
   "Salary",
   "Freelance",
+  "Investment",
   "Food",
   "Transport",
   "Entertainment",
   "Bills",
   "Healthcare",
+  "Education",
+  "Shopping",
+  "Travel",
+  "Gifts",
+  "Miscellaneous",
   "Other",
 ];
 
@@ -34,13 +40,36 @@ const DashboardPage = () => {
   const { user } = useAuth();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingTransaction, setEditingTransaction] =
-    useState<Transaction | null>(null);
+    useState<Expense | null>();
 
   // API State
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [summary, setSummary] = useState<ExpenseSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredExpenses = useMemo(() => {
+    return expenses
+      .filter((expense) => {
+        const matchesType = typeFilter === "all" || expense.type === typeFilter;
+        const matchesCategory =
+          categoryFilter === "all" || expense.category === categoryFilter;
+        const matchesSearch =
+          expense.description
+            ?.toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          expense.category?.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesType && matchesCategory && matchesSearch;
+      })
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+  }, [expenses, typeFilter, categoryFilter, searchTerm]);
 
   // Filters
   const [filters, setFilters] = useState({
@@ -85,11 +114,7 @@ const DashboardPage = () => {
     date: expense.createdAt.split("T")[0], // Extract date part
   });
 
-  const transactions = expenses
-    .map(convertToTransaction)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  const handleEdit = (transaction: Transaction) => {
+  const handleEdit = (transaction: Expense) => {
     setEditingTransaction(transaction);
     setDialogOpen(true);
   };
@@ -121,7 +146,7 @@ const DashboardPage = () => {
           category: transactionData.category,
           description: transactionData.description,
           type: transactionData.type,
-          date: transactionData.date, // เพิ่มบรรทัดนี้
+          date: transactionData.date,
         });
         toast.success("Transaction updated successfully");
       } else {
@@ -131,7 +156,7 @@ const DashboardPage = () => {
           category: transactionData.category,
           description: transactionData.description,
           type: transactionData.type,
-          date: transactionData.date, // เพิ่มบรรทัดนี้
+          date: transactionData.date,
         });
         toast.success("Transaction created successfully");
       }
@@ -201,11 +226,19 @@ const DashboardPage = () => {
             </Button>
           </div>
 
-          <TransactionFilters />
+          <TransactionFilters
+            typeFilter={typeFilter}
+            setTypeFilter={setTypeFilter}
+            categoryFilter={categoryFilter}
+            setCategoryFilter={setCategoryFilter}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            categories={Categories}
+          />
 
           <TransactionList
-            transactions={transactions}
-            onEdit={handleEdit}
+            expenses={filteredExpenses}
+            onEdit={(expense) => handleEdit(expense)}
             onDelete={handleDelete}
           />
         </div>
@@ -215,7 +248,7 @@ const DashboardPage = () => {
           onOpenChange={setDialogOpen}
           onSave={handleSave}
           editingTransaction={editingTransaction}
-          categories={categories}
+          categories={Categories}
         />
       </div>
     </div>
