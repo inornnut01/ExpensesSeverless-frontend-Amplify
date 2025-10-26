@@ -147,9 +147,6 @@ class ExpenseAPI {
         headers,
         body: JSON.stringify(updates),
       });
-      console.log("updates", updates);
-      console.log("expenseId", expenseId);
-      console.log(response);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -171,17 +168,18 @@ class ExpenseAPI {
       const session = await fetchAuthSession();
       const userId = session.tokens?.idToken?.payload?.sub as string;
 
-      if (!userId) {
-        throw new Error("User ID not found in session");
-      }
-      const response = await fetch(`${API_BASE_URL}/delete`, {
+      console.log("expenseId", expenseId);
+      console.log("userId", userId);
+
+      const response = await fetch(`${API_BASE_URL}/delete/${expenseId}`, {
         method: "DELETE",
         headers,
-        body: JSON.stringify({ id: expenseId, userId }),
+        body: JSON.stringify({ expenseId, userId }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.log("Error from backend:", errorData.error);
         throw new Error(errorData.message || "Failed to delete expense");
       }
     } catch (error) {

@@ -9,6 +9,7 @@ import { useState, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { expenseAPI, type Expense, type ExpenseSummary } from "@/services/api";
 import { useAuth } from "@/contexts/AuthContext";
+import DashboardAvatar from "@/components/dashboard/DashboardAvatar";
 
 const Categories = [
   "Salary",
@@ -174,11 +175,16 @@ const DashboardPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6 max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Expense Tracker</h1>
-          <p className="text-muted-foreground">
-            Track your income and expenses
-          </p>
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Expense Tracker</h1>
+            <p className="text-muted-foreground">
+              Track your income and expenses
+            </p>
+          </div>
+          <div className="flex items-center gap-2 justify-center">
+            <DashboardAvatar />
+          </div>
         </div>
 
         {error && (

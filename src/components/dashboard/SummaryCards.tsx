@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TrendingUp, TrendingDown, ArrowDown, ArrowUp } from "lucide-react";
+import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface SummaryCardsProps {
   totalIncome: number;
@@ -24,8 +24,10 @@ const SummaryCards = ({
     <div className="grid gap-4 md:grid-cols-3">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Income</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+          <CardDescription className="text-bold text-xl">
+            Total Income
+          </CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl text-blue-700">
             ${totalIncome.toFixed(2)}
           </CardTitle>
           <CardAction>
@@ -53,8 +55,10 @@ const SummaryCards = ({
 
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Expense</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+          <CardDescription className="text-bold text-xl">
+            Total Expense
+          </CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl text-blue-700">
             ${totalExpense.toFixed(2)}
           </CardTitle>
           <CardAction>
@@ -81,7 +85,9 @@ const SummaryCards = ({
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Balance</CardDescription>
+          <CardDescription className="text-bold text-xl">
+            Balance
+          </CardDescription>
           <CardTitle
             className={`text-2xl font-semibold tabular-nums @[250px]/card:text-3xl ${
               netAmount > 0 ? "text-green-500" : "text-red-500"

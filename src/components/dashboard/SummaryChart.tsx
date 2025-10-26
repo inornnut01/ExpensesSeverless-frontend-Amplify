@@ -38,12 +38,12 @@ interface SummaryChartProps {
 const chartConfig = {
   income: {
     label: "Income",
-    color: "var(--chart-1)",
+    color: "var(--chart-2)",
     icon: Wallet,
   },
   expense: {
     label: "Expense",
-    color: "var(--chart-2)",
+    color: "var(--chart-1)",
     icon: CircleDollarSign,
   },
 } satisfies ChartConfig;
@@ -61,20 +61,27 @@ const SummaryChart = ({ expenses, loading = false }: SummaryChartProps) => {
       expense: expense.type === "expense" ? expense.amount : 0,
     }));
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Your Income and Expense</CardTitle>
-        <CardDescription>
-          Showing your income and expenses for the last 6 months
-        </CardDescription>
+        <CardDescription>Showing your income and expenses.</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer
+          config={chartConfig}
+          className="min-h-[300px] max-h-[600px] w-full"
+        >
           <AreaChart
             accessibilityLayer
             data={chartData}
             margin={{
+              top: 30,
+              bottom: 30,
               left: 12,
               right: 12,
             }}
@@ -118,10 +125,10 @@ const SummaryChart = ({ expenses, loading = false }: SummaryChartProps) => {
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
             <div className="flex items-center gap-2 leading-none font-medium">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+              Keep doing your freedom <TrendingUp className="h-4 w-4" />
             </div>
             <div className="text-muted-foreground flex items-center gap-2 leading-none">
-              January - June 2024
+              2025
             </div>
           </div>
         </div>
