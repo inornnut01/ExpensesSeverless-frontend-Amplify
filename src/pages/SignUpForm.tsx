@@ -82,7 +82,7 @@ function SignUpForm() {
         {/* Logo/Header */}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold mb-2">
-            Expen<span className="text-red-500">se</span>
+            Expen<span className="text-blue-600">se</span>
           </h1>
           <p className="text-gray-600">Create your account</p>
         </div>

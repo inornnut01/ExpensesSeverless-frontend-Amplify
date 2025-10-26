@@ -1,55 +1,120 @@
+import { Wallet, Mail, X, Linkedin, Github } from "lucide-react";
+
 const Footer = () => {
   return (
-    <footer className="bg-white rounded-lg shadow-sm dark:bg-gray-900 m-4">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <a
-            href="/"
-            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
-          >
-            <img
-              src="https://png.pngtree.com/png-vector/20220825/ourmid/pngtree-expense-tracker-app-rgb-color-icon-account-symbol-thin-vector-png-image_38870842.png"
-              className="size-16"
-              alt="Expense Tracker Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Expen<span className="text-red-500">se</span>
-            </span>
-          </a>
-          <ul className="flex flex-wrap items-center justify-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                About
+    <footer className="bg-card/50 backdrop-blur-sm border-t border-border/50">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <Wallet className="h-6 w-6 text-primary" />
+              <span className="font-bold text-lg text-foreground">Expense</span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Take control of your finances with smart expense tracking and
+              budgeting tools.
+            </p>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Product</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Features
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Pricing
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Security
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Updates
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Company</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <a href="#" className="hover:text-primary transition-colors">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Careers
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary transition-colors">
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Connect</h4>
+            <div className="flex gap-3">
+              <a
+                href="#"
+                className="h-9 w-9 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center"
+              >
+                <X className="h-4 w-4" />
               </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
+              <a
+                href="#"
+                className="h-9 w-9 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
+              <a
+                href="#"
+                className="h-9 w-9 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center"
+              >
+                <Github className="h-4 w-4" />
+              </a>
+              <a
+                href="#"
+                className="h-9 w-9 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center"
+              >
+                <Mail className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-border/50 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+            <p>&copy; 2025 ExpenseServerless. All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-primary transition-colors">
                 Privacy Policy
               </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                Licensing
+              <a href="#" className="hover:text-primary transition-colors">
+                Terms of Service
               </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline">
-                Contact
+              <a href="#" className="hover:text-primary transition-colors">
+                Cookie Policy
               </a>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2025{" "}
-          <a
-            href="https://expense-tracker-serverless.com/"
-            className="hover:underline"
-          >
-            Expense Tracker™
-          </a>
-          . All Rights Reserved.
-        </span>
       </div>
     </footer>
   );

@@ -41,7 +41,7 @@ function Navbar() {
                 to="/"
                 className="text-4xl font-bold hover:opacity-80 transition-opacity"
               >
-                Expen<span className="text-red-500">se</span>
+                Expen<span className="text-blue-600">se</span>
               </Link>
             </div>
           </div>
@@ -52,7 +52,7 @@ function Navbar() {
               <div className="flex flex-row items-center gap-4">
                 <Button
                   onClick={() => navigate("/dashboard")}
-                  className="bg-green-800 text-white hover:bg-green-900"
+                  className="bg-blue-600 text-white hover:bg-blue-700"
                   variant="default"
                 >
                   Dashboard
@@ -126,7 +126,7 @@ function Navbar() {
                 to="/"
                 className="text-4xl font-bold hover:opacity-80 transition-opacity"
               >
-                Expen<span className="text-red-500">se</span>
+                Expen<span className="text-blue-600">se</span>
               </Link>
             </div>
           </div>
@@ -150,7 +150,7 @@ function Navbar() {
               <div className="flex flex-row items-center gap-4">
                 <Button
                   onClick={() => navigate("/dashboard")}
-                  className="bg-green-800 text-white hover:bg-green-900"
+                  className="bg-blue-600 text-white hover:bg-blue-700"
                   variant="default"
                 >
                   Dashboard
