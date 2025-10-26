@@ -10,15 +10,6 @@ import { toast } from "sonner";
 import { expenseAPI, type Expense, type ExpenseSummary } from "@/services/api";
 import { useAuth } from "@/contexts/AuthContext";
 
-export interface Transaction {
-  id: string;
-  type: "income" | "expense";
-  category: string;
-  amount: number;
-  description: string;
-  date: string;
-}
-
 const Categories = [
   "Salary",
   "Freelance",
@@ -104,16 +95,6 @@ const DashboardPage = () => {
     }
   }, [user, filters]);
 
-  // Convert Expense to Transaction for UI compatibility
-  const convertToTransaction = (expense: Expense): Transaction => ({
-    id: expense.id,
-    type: expense.type,
-    category: expense.category,
-    amount: expense.amount,
-    description: expense.description,
-    date: expense.createdAt.split("T")[0], // Extract date part
-  });
-
   const handleEdit = (transaction: Expense) => {
     setEditingTransaction(transaction);
     setDialogOpen(true);
@@ -137,7 +118,14 @@ const DashboardPage = () => {
     setDialogOpen(true);
   };
 
-  const handleSave = async (transactionData: Omit<Transaction, "id">) => {
+  const handleSave = async (transactionData: {
+    amount: number;
+    category: string;
+    description: string;
+    type: "income" | "expense";
+    date: string;
+    tags?: string[];
+  }) => {
     try {
       if (editingTransaction) {
         // Update existing
@@ -146,7 +134,7 @@ const DashboardPage = () => {
           category: transactionData.category,
           description: transactionData.description,
           type: transactionData.type,
-          date: transactionData.date,
+          date: transactionData.date, // ✅ เปลี่ยนจาก transactionData.createdAt
         });
         toast.success("Transaction updated successfully");
       } else {
@@ -156,7 +144,7 @@ const DashboardPage = () => {
           category: transactionData.category,
           description: transactionData.description,
           type: transactionData.type,
-          date: transactionData.date,
+          date: transactionData.date, // ✅ เปลี่ยนจาก transactionData.createdAt
         });
         toast.success("Transaction created successfully");
       }

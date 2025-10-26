@@ -21,7 +21,14 @@ import type { Expense } from "@/services/api";
 interface TransactionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSave: (transaction: Omit<Expense, "id">) => void;
+  onSave: (transaction: {
+    amount: number;
+    category: string;
+    description: string;
+    type: "income" | "expense";
+    date: string;
+    tags?: string[];
+  }) => void;
   editingTransaction?: Expense | null;
   categories: string[];
 }
@@ -68,7 +75,9 @@ export const TransactionDialog = ({
     const amount = parseFloat(formData.amount);
 
     onSave({
-      ...formData,
+      type: formData.type,
+      category: formData.category,
+      description: formData.description,
       amount,
       date: formData.date,
     });

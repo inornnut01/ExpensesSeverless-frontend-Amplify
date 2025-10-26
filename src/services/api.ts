@@ -141,23 +141,20 @@ class ExpenseAPI {
   ): Promise<Expense> {
     try {
       const headers = await this.getAuthHeaders();
-      const session = await fetchAuthSession();
-      const userId = session.tokens?.idToken?.payload?.sub as string;
 
-      if (!userId) {
-        throw new Error("User ID not found in session");
-      }
-      const response = await fetch(`${API_BASE_URL}/update`, {
+      const response = await fetch(`${API_BASE_URL}/update/${expenseId}`, {
         method: "PUT",
         headers,
-        body: JSON.stringify({ id: expenseId, userId, ...updates }),
+        body: JSON.stringify(updates),
       });
-
+      console.log("updates", updates);
+      console.log("expenseId", expenseId);
       console.log(response);
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to update expense");
+        console.log("Error from backend:", errorData);
+        throw new Error(errorData.message);
       }
 
       const data = await response.json();
