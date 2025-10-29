@@ -166,9 +166,6 @@ class ExpenseAPI {
       const session = await fetchAuthSession();
       const userId = session.tokens?.idToken?.payload?.sub as string;
 
-      console.log("expenseId", expenseId);
-      console.log("userId", userId);
-
       const response = await fetch(`${API_BASE_URL}/delete/${expenseId}`, {
         method: "DELETE",
         headers,
