@@ -36,8 +36,14 @@ function SignUpForm() {
     try {
       await signUp(username, email, password);
       setSuccess(true);
-      // Redirect to sign in after 2 seconds
-      setTimeout(() => navigate("/signin-form"), 2000);
+      // Redirect to confirmation page after 2 seconds
+      setTimeout(
+        () =>
+          navigate("/confirm-signup", {
+            state: { username, password },
+          }),
+        2000
+      );
     } catch (err: any) {
       setError(err.message || "Failed to sign up");
     } finally {
@@ -68,9 +74,11 @@ function SignUpForm() {
             Account Created Successfully!
           </h2>
           <p className="text-gray-600 mb-4">
-            Please check your email to verify your account.
+            Please check your email for a verification code.
           </p>
-          <p className="text-sm text-gray-500">Redirecting to sign in...</p>
+          <p className="text-sm text-gray-500">
+            Redirecting to verification page...
+          </p>
         </div>
       </div>
     );

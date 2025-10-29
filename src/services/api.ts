@@ -1,7 +1,7 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 
 const API_BASE_URL =
-  "https://kuj3p6xsrd.execute-api.us-east-1.amazonaws.com/dev/api";
+  "https://kuj3p6xsrd.execute-api.us-east-1.amazonaws.com/production/pro";
 
 interface Expense {
   id: string;
@@ -46,7 +46,7 @@ class ExpenseAPI {
   private async getAuthHeaders(): Promise<HeadersInit> {
     try {
       const session = await fetchAuthSession();
-      const idToken = session.tokens?.idToken?.toString();
+      const idToken = session.tokens?.accessToken?.toString();
 
       if (!idToken) {
         throw new Error("No authentication token found");
@@ -55,8 +55,6 @@ class ExpenseAPI {
       return {
         "Content-Type": "application/json",
         Authorization: `Bearer ${idToken}`,
-        // หากใช้ mock auth ให้ใช้ x-mock-user-id แทน
-        // "x-mock-user-id": "user123"
       };
     } catch (error) {
       console.error("Error getting auth headers:", error);

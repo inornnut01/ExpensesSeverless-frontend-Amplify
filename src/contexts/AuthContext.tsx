@@ -12,6 +12,8 @@ import {
   signOut,
   getCurrentUser,
   fetchAuthSession,
+  confirmSignUp,
+  resendSignUpCode,
 } from "aws-amplify/auth";
 
 // Configure Amplify
@@ -37,6 +39,8 @@ interface AuthContextType {
   signUp: (username: string, email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   checkAuth: () => Promise<void>;
+  confirmSignUp: (username: string, confirmationCode: string) => Promise<void>;
+  resendConfirmationCode: (username: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -98,6 +102,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const handleConfirmSignUp = async (
+    username: string,
+    confirmationCode: string
+  ) => {
+    try {
+      await confirmSignUp({
+        username,
+        confirmationCode,
+      });
+    } catch (error) {
+      console.error("Confirm sign up error:", error);
+      throw error;
+    }
+  };
+
+  const handleResendConfirmationCode = async (username: string) => {
+    try {
+      await resendSignUpCode({
+        username,
+      });
+    } catch (error) {
+      console.error("Resend confirmation code error:", error);
+      throw error;
+    }
+  };
+
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -117,6 +147,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signUp: handleSignUp,
         signOut: handleSignOut,
         checkAuth,
+        confirmSignUp: handleConfirmSignUp,
+        resendConfirmationCode: handleResendConfirmationCode,
       }}
     >
       {children}
