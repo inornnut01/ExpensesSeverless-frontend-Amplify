@@ -6,11 +6,10 @@ import { Button } from "../components/ui/button";
 function ConfirmSignUpForm() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { confirmSignUp, resendConfirmationCode, signIn } = useAuth();
+  const { confirmSignUp, resendConfirmationCode } = useAuth();
 
-  // Get username and password from navigation state
+  // Get username from navigation state
   const username = location.state?.username || "";
-  const password = location.state?.password || "";
 
   const [confirmationCode, setConfirmationCode] = useState("");
   const [error, setError] = useState("");
@@ -53,20 +52,8 @@ function ConfirmSignUpForm() {
       await confirmSignUp(username, confirmationCode);
       setSuccess(true);
 
-      // Auto sign in after confirmation
-      if (password) {
-        try {
-          await signIn(username, password);
-          setTimeout(() => navigate("/"), 1500);
-        } catch (signInError) {
-          console.error("Auto sign-in error:", signInError);
-          // If auto sign-in fails, redirect to signin page
-          setTimeout(() => navigate("/signin-form"), 2000);
-        }
-      } else {
-        // If no password available, redirect to signin page
-        setTimeout(() => navigate("/signin-form"), 2000);
-      }
+      // Redirect to signin page after successful confirmation
+      setTimeout(() => navigate("/signin-form"), 2000);
     } catch (err: any) {
       console.error("Confirmation error:", err);
 
@@ -128,9 +115,7 @@ function ConfirmSignUpForm() {
             Your account has been successfully verified.
           </p>
           <p className="text-sm text-gray-500">
-            {password
-              ? "Signing you in and redirecting to home..."
-              : "Redirecting to sign in..."}
+            Redirecting to sign in page...
           </p>
         </div>
       </div>

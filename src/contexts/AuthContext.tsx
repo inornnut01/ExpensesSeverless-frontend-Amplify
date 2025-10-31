@@ -20,8 +20,8 @@ import {
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: "us-east-1_s0FfrMv7V",
-      userPoolClientId: "1e2kc6nf8b8dca0vkmjqg0k5u2",
+      userPoolId: import.meta.env.VITE_AWS_USER_POOL_ID,
+      userPoolClientId: import.meta.env.VITE_AWS_USER_POOL_CLIENT_ID,
     },
   },
 });

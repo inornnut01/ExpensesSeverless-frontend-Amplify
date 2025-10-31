@@ -1,7 +1,6 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 
-const API_BASE_URL =
-  "https://kuj3p6xsrd.execute-api.us-east-1.amazonaws.com/production/pro";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface Expense {
   id: string;

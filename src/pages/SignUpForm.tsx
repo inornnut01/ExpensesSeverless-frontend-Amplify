@@ -40,7 +40,7 @@ function SignUpForm() {
       setTimeout(
         () =>
           navigate("/confirm-signup", {
-            state: { username, password },
+            state: { username },
           }),
         2000
       );
