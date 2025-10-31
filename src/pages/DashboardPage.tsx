@@ -135,7 +135,7 @@ const DashboardPage = () => {
           category: transactionData.category,
           description: transactionData.description,
           type: transactionData.type,
-          date: transactionData.date, // ✅ เปลี่ยนจาก transactionData.createdAt
+          date: transactionData.date,
         });
         toast.success("Transaction updated successfully");
       } else {
@@ -145,7 +145,7 @@ const DashboardPage = () => {
           category: transactionData.category,
           description: transactionData.description,
           type: transactionData.type,
-          date: transactionData.date, // ✅ เปลี่ยนจาก transactionData.createdAt
+          date: transactionData.date,
         });
         toast.success("Transaction created successfully");
       }

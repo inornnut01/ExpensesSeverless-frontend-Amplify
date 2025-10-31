@@ -106,8 +106,8 @@ export const TransactionDialog = ({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-popover">
-                <SelectItem value="income">Income</SelectItem>
-                <SelectItem value="expense">Expense</SelectItem>
+                <SelectItem value="income">income</SelectItem>
+                <SelectItem value="expense">expense</SelectItem>
               </SelectContent>
             </Select>
           </div>

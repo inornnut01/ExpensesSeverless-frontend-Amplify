@@ -12,3 +12,12 @@ vi.mock("aws-amplify/auth", () => ({
 }));
 
 global.fetch = vi.fn();
+
+// Mock ResizeObserver for recharts
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+global.ResizeObserver = ResizeObserverMock as any;
