@@ -64,7 +64,7 @@ const DashboardPage = () => {
   }, [expenses, typeFilter, categoryFilter, searchTerm]);
 
   // Filters
-  const [filters, setFilters] = useState({
+  const [filters] = useState({
     limit: 25,
     startDate: undefined as string | undefined,
     endDate: undefined as string | undefined,
